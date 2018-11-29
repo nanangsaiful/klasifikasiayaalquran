@@ -129,8 +129,8 @@ for train, test in kf.split(df):
         print("training")
         batch_size = 1
 #        ckpt=ModelCheckpoint('F:/1301154154_NANANG_NITIP/nanang/1/model'+str(k)+str(kelas)+'.h5', monitor="val_loss",verbose=1,save_best_only=True)
-        ckpt=ModelCheckpoint('model'+str(k)+str(kelas)+'.h5', monitor="val_loss",verbose=1,save_best_only=True)
-        es=EarlyStopping(monitor="val_loss",verbose=1,patience=2)
+        ckpt=ModelCheckpoint('model'+str(k)+str(kelas)+'.h5', monitor="val_acc",verbose=1,save_best_only=True)
+        es=EarlyStopping(monitor="val_acc",verbose=1,patience=2)
         history=model.fit(X_train, Y_train[:].ravel(), epochs = 10, batch_size=batch_size, verbose = 2,validation_data=(X_test,Y_test),callbacks=[ckpt,es])
         
         print("save model")
