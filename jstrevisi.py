@@ -144,8 +144,7 @@ for skenariomonitor in  ["acc","val_acc"]:
                 end = time.time()
                 waktu=end - start
                 np.savetxt("hasil"+skenariooptimezer+skenariomonitor+skenariosampling+skenariostem+".txt",[hma,loss01a,a1,a2,(end-start)],fmt='%1.5f')
-                sys.modules[__name__].__dict__.clear()
-
+              
 
 #
 #
