@@ -8,7 +8,7 @@ Created on Tue Jun 05 18:26:43 2018
 
 @author: nanang saiful
 """
-for skenariomonitor in  ["val_acc","acc"]:    
+for skenariomonitor in  ["acc","val_acc"]:    
       for skenariostem in ["stem","nostem"]:
          for skenariooptimezer in ["adam","sgd"]:
             for skenariosampling in ["under","real","smote"]: 
