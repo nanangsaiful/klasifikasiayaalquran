@@ -19,15 +19,15 @@ from sklearn.model_selection import KFold
 from sklearn.metrics import hamming_loss,classification_report,f1_score,zero_one_loss
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-from imblearn.over_sampling import SMOTE#RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler
+# from imblearn.over_sampling import SMOTE#RandomOverSampler
+# from imblearn.under_sampling import RandomUnderSampler
 import pickle 
 import time
 import sys
 for skenariomonitor in  ["acc","val_acc"]:    
       for skenariostem in ["nostem","stem"]:
          for skenariooptimezer in ["adam","sgd"]:
-            for skenariosampling in ["under","real","smote"]: 
+            for skenariosampling in ["real"]: #"under","smote"
                 
 
                 start = time.time()
@@ -78,14 +78,14 @@ for skenariomonitor in  ["acc","val_acc"]:
                     for kelas in range(15):       
                         Y_train=train_data[:,[kelas+4]]
                         Y_test=test_data[:,[kelas+4]]
-                        if skenariosampling=="smote":
-                            sm = SMOTE(random_state=42)
-                            X_train, Y_train = sm.fit_resample(X_train1, Y_train.ravel())
-                        elif skenariosampling=="under":
-                            rm=RandomUnderSampler()
-                            X_train, Y_train = rm.fit_resample(X_train1, Y_train)
-                        else:
-                            X_train=X_train1
+#                         if skenariosampling=="smote":
+#                             sm = SMOTE(random_state=42)
+#                             X_train, Y_train = sm.fit_resample(X_train1, Y_train.ravel())
+#                         elif skenariosampling=="under":
+#                             rm=RandomUnderSampler()
+#                             X_train, Y_train = rm.fit_resample(X_train1, Y_train)
+#                         else:
+                        X_train=X_train1
                         indextukar=np.random.permutation(len(X_train))
                         X_train=X_train[indextukar]
                         Y_train=Y_train[indextukar]
