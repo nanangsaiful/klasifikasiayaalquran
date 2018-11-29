@@ -109,7 +109,7 @@ for skenariomonitor in  ["acc","val_acc"]:
                 #        ckpt=ModelCheckpoint('F:/1301154154_NANANG_NITIP/nanang/1/model'+str(k)+str(kelas)+'.h5', monitor="val_loss",verbose=1,save_best_only=True)
                         ckpt=ModelCheckpoint('model'+skenariooptimezer+skenariomonitor+skenariosampling+skenariostem+str(k)+str(kelas)+'.h5', monitor=skenariomonitor,verbose=1,save_best_only=True)
                         es=EarlyStopping(monitor=skenariomonitor,verbose=1,patience=2)
-                        history=model.fit(X_train, Y_train[:].ravel(), epochs = 1, batch_size=batch_size, verbose = 2,validation_data=(X_test,Y_test),callbacks=[ckpt,es])
+                        history=model.fit(X_train, Y_train[:].ravel(), epochs = 20, batch_size=batch_size, verbose = 2,validation_data=(X_test,Y_test),callbacks=[ckpt,es])
                         
                         print("save model")
                 
