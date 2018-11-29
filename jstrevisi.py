@@ -8,27 +8,28 @@ Created on Tue Jun 05 18:26:43 2018
 
 @author: nanang saiful
 """
+from keras.callbacks import ModelCheckpoint,EarlyStopping
+import pandas as pd
+import re
+import numpy as np
+from keras.preprocessing.text import Tokenizer
+from keras.models import Sequential,load_model
+from keras.layers import Dense                
+from sklearn.model_selection import KFold
+from sklearn.metrics import hamming_loss,classification_report,f1_score,zero_one_loss
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from imblearn.over_sampling import SMOTE#RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler
+import pickle 
+import time
+import sys
 for skenariomonitor in  ["acc","val_acc"]:    
-      for skenariostem in ["stem","nostem"]:
+      for skenariostem in ["nostem","stem"]:
          for skenariooptimezer in ["adam","sgd"]:
             for skenariosampling in ["under","real","smote"]: 
-                from keras.preprocessing.text import Tokenizer
-                from keras.models import Sequential,load_model
-                from keras.layers import Dense
                 
-                from keras.callbacks import ModelCheckpoint,EarlyStopping
-                import pandas as pd
-                import re
-                import numpy as np
-                from sklearn.model_selection import KFold
-                from sklearn.metrics import hamming_loss,classification_report,f1_score,zero_one_loss
-                from nltk.corpus import stopwords
-                from nltk.stem import PorterStemmer
-                from imblearn.over_sampling import SMOTE#RandomOverSampler
-                from imblearn.under_sampling import RandomUnderSampler
-                import pickle 
-                import time
-                import sys
+
                 start = time.time()
                 dokumen=pd.ExcelFile('datasetalquran.xlsx')
                 df=dokumen.parse('Sheet1')
@@ -83,6 +84,8 @@ for skenariomonitor in  ["acc","val_acc"]:
                         elif skenariosampling=="under":
                             rm=RandomUnderSampler()
                             X_train, Y_train = rm.fit_resample(X_train1, Y_train)
+                        else:
+                            X_train=X_train1
                         indextukar=np.random.permutation(len(X_train))
                         X_train=X_train[indextukar]
                         Y_train=Y_train[indextukar]
@@ -144,7 +147,8 @@ for skenariomonitor in  ["acc","val_acc"]:
                 end = time.time()
                 waktu=end - start
                 np.savetxt("hasil"+skenariooptimezer+skenariomonitor+skenariosampling+skenariostem+".txt",[hma,loss01a,a1,a2,(end-start)],fmt='%1.5f')
-                Del X_test,Y_test,X_train,X_train1,Y_train,df,train_data,test_data,allpredik,allhistory
+                del X_test,X_train,X_train1,Y_test,Y_train,allhistory,allpredik,allytest,batch_size,df,indextukar,report,test,test_data,train,train_data
+
 
 #
 #
