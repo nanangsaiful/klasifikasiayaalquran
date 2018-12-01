@@ -19,10 +19,10 @@ from nltk.stem import PorterStemmer
 import pickle 
 import time
 for skenariomonitor in  ["acc","val_acc"]:    
-    for skenariostem in ["nostem","stem"]:
+    for skenariostem in ["stem","nostem"]:
         for skenariooptimezer in ["adam","sgd"]:
                 start = time.time()
-                dokumen=pd.ExcelFile('E:\kuliah\RISET\quranic topic classification\JST\kodingan\datasetalquran1.xlsx')
+                dokumen=pd.ExcelFile('datasetalquran1.xlsx')
                 df=dokumen.parse('Sheet1')
                 
                 print ("preposesing")
@@ -75,19 +75,17 @@ for skenariomonitor in  ["acc","val_acc"]:
                     
                     #mlp
                     model = Sequential()
-                    model.add(Dense(50, activation='sigmoid', input_shape=(X_train.shape[1],)))
-                    model.add(Dense(25, activation='sigmoid'))
+                    model.add(Dense(300, activation='sigmoid', input_shape=(X_train.shape[1],)))
+                    model.add(Dense(250, activation='sigmoid'))
                     model.add(Dense(11, activation='sigmoid'))
                     model.compile(loss = 'binary_crossentropy', optimizer='sgd',metrics = ['accuracy'])
-                #    print(model.summary())
-                    
+           
                     
                     batch_size = 1
                     ckpt=ModelCheckpoint('model'+skenariooptimezer+skenariomonitor+skenariostem+str(k)+'.h5', monitor="acc",verbose=1,save_best_only=True)
                     es=EarlyStopping(monitor="acc",verbose=1,patience=2)
-                    history=model.fit(X_train, Y_train, epochs = 1, batch_size=batch_size, verbose = 2,validation_data=(X_test,Y_test),callbacks=[ckpt,es])
-                    
-                        
+                    history=model.fit(X_train, Y_train, epochs = 10, batch_size=batch_size, verbose = 2,validation_data=(X_test,Y_test),callbacks=[ckpt,es])
+                                    
                     
                     model=load_model('model'+skenariooptimezer+skenariomonitor+skenariostem+str(k)+'.h5')
                     predik=np.where(model.predict(X_test) > 0.5, 1, 0)
@@ -106,19 +104,4 @@ for skenariomonitor in  ["acc","val_acc"]:
                 waktu=end - start
                 np.savetxt("hasil"+skenariooptimezer+skenariomonitor+skenariostem+".txt",[hma,loss01a,a1,a2,(end-start)],fmt='%1.5f')
                 del X_test,X_train,Y_test,Y_train,batch_size,df,report,test,test_data,train,train_data
-                break
         break
-    break
-
-
-## mlp
-#
-##mlp = MLPClassifier(hidden_layer_sizes=(100,), max_iter=10, alpha=1e-4,
-##                    solver='sgd', verbose=10, tol=1e-4, random_state=1,
-##                    learning_rate_init=.1)
-##
-##mlp.fit(X_train, Y_train)
-##print("Training set score: %f" % mlp.score(X_train, Y_train))
-##print("Test set score: %f" % mlp.score(X_test, Y_test))
-#
-#
